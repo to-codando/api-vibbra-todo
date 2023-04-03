@@ -2,13 +2,16 @@
   "version": "1.0.87",
   "name": "todo-api-vibra",
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "rome": "^12.0.0"
   },
   "dependencies": {
-    "hono": "^2.2.5"
+    "hono": "^2.2.5",
+    "json-file-database": "^2.0.2"
   },
   "scripts": {
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "dev": "bun run --hot src/index.ts"
   },
   "module": "src/index.js"
 }

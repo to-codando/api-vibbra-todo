@@ -1,19 +1,26 @@
 import { Hono } from "hono";
-import { serveStatic } from 'hono/serve-static.bun';
+import { cors } from "hono/cors";
+import { RegExpRouter } from "hono/router/reg-exp-router";
 
-const port = parseInt(process.env.PORT) || 3000;
+import { create } from "../db";
+import { routerFactory } from "./router";
 
-const app = new Hono();
+const dbPath = "./db/data.json";
+const db = create(process.env.DATABASE || dbPath);
+db.init();
 
-app.use('/favicon.ico', serveStatic({ path: './public/favicon.ico' }));
+const port = process.env.PORT ? +process.env.PORT : 3000;
+const host = process.env.HOST || "localhost";
 
-app.get("/", (c) => {
-  return c.json({ message: "Hello World!" });
-});
+const app = new Hono({ router: new RegExpRouter() });
+const router = routerFactory(db);
 
-console.log(`Running at http://localhost:${port}`);
+app.use("/api/*", cors());
+app.route("/api/user", router.user);
+
+console.log(`Running at ${host}:${port}`);
 
 export default {
   port,
-  fetch: app.fetch
+  fetch: app.fetch,
 };
