@@ -1,4 +1,7 @@
-# Hono with Bun runtime
+# todoany
+
+simple task list manager
+## Hono with Bun runtime
 
 ## Getting Started
 
